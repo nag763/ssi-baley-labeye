@@ -48,8 +48,7 @@ def password_score(password : str) -> int:
 
 
 def write_each_result(results):
-    for index, key in enumerate(results): 
-        current_result = results[index]
+    for current_result in results: 
         with open(f'reports{os.sep}{current_result["value"]}.md', 'w') as f:
             f.write(f"# Comparison for {current_result['value']}\n")
             f.write("\n")
@@ -65,6 +64,16 @@ def write_each_result(results):
                 f.write("\n")
 
 
+def output_in_console(results):
+    for index, arg in enumerate(results):
+        print(f"\n---\nArg {index}: {arg['value']}\t Score : {arg['score']} /5")
+        for alg in arg['algs']:
+            print(f"* {alg['name']}: {alg['hash_digest']}")
+            print(f"\t-Digest size : {alg['digest_size']}")
+            print(f"\t-Block size : {alg['digest_bs']}")
+            print(f"\t-Average time for {arg['trials']} : {alg['avgtime']}")
+
+
 def get_args():
     """
     Get args value from the cmd line
@@ -74,6 +83,7 @@ def get_args():
     parser.add_argument("--iters", "-i", metavar='i', default=10000, type=int, help="number of iterations")
     parser.add_argument("--algs", "-a", type=str, default=['sha256', 'md5'], nargs='+', help="algorithms to try")
     parser.add_argument("--output", "-o", nargs='?', type=bool, default=False, const=True, help="define if an output is required")
+    parser.add_argument("--silent", "-s", nargs='?', type=bool, default=False, const=True, help="define if the result is printed in console")
     args = parser.parse_args()
     if args.inputs:
         argv = args.inputs
@@ -81,11 +91,11 @@ def get_args():
         print("Provide arguments")
         sys.exit()
 
-    return argv, args.iters, args.algs, args.output
+    return argv, args.iters, args.algs, args.output, args.silent
 
 
 if __name__ == "__main__":
-    argv, iters, algs, write_in_file = get_args()
+    argv, iters, algs, write_in_file, silent = get_args()
     results = []
     for index, arg in enumerate(argv) :
         score = password_score(arg)
@@ -96,7 +106,6 @@ if __name__ == "__main__":
         current_arg['score'] = score
         current_arg['trials'] = iters
         current_arg['algs'] = []
-        print(f"\n---\nArg {index} : {arg}\t Score : {score} /5")
         for algorithm in algs:
             hash = getHash(algorithm, arg)
             time_for_hash = time_hash_computation(algorithm, arg, int(iters))
@@ -107,9 +116,7 @@ if __name__ == "__main__":
                 "hash_digest":str(hash.hexdigest()),
                 "avgtime":str(time_for_hash)
                 })
-            print(f"* {algorithm}: {hash.hexdigest()}")
-            print(f"\t-Digest size : {hash.digest_size}")
-            print(f"\t-Block size : {hash.block_size}")
-            print(f"\t-Average time for {iters} : {time_for_hash}")
+    if not silent:
+        output_in_console(results)
     if write_in_file:
         write_each_result(results)
