@@ -47,6 +47,24 @@ def password_score(password : str) -> int:
     return length_acceptable + digit_acceptable + uppercase_acceptable + lowercase_acceptable + symbol_acceptable
 
 
+def write_each_result(results):
+    for index, key in enumerate(results): 
+        current_result = results[index]
+        with open(f'reports{os.sep}{current_result["value"]}.md', 'w') as f:
+            f.write(f"# Comparison for {current_result['value']}\n")
+            f.write("\n")
+            f.write(f"Score of the argument : {current_result['score']}/5\n")
+            f.write(f"Number of trials for each hash : {current_result['trials']}\n")
+            f.write(f"Length of the argument : {current_result['length']}\n")
+            f.write("|".join(["Algorithm","Hash","Digest size","Block size","Time"]))
+            f.write("\n")
+            f.write("|".join(["-" for i in range(5)]))
+            f.write("\n")
+            for alg in current_result['algs']:
+                f.write(f"{alg['name']}|{alg['hash_digest']}|{alg['digest_size']}|{alg['digest_bs']}|{alg['avgtime']}")
+                f.write("\n")
+
+
 def get_args():
     """
     Get args value from the cmd line
@@ -68,25 +86,30 @@ def get_args():
 
 if __name__ == "__main__":
     argv, iters, algs, write_in_file = get_args()
+    results = []
     for index, arg in enumerate(argv) :
         score = password_score(arg)
-        output = []
-        output.append(f"# Comparison for {arg}")
-        output.append("")
-        output.append(f"Score of the argument : {score}/5")
-        output.append(f"Number of trials for each hash : {iters}")
-        output.append("|".join(["Algorithm","Hash","Digest size","Block size","Time"]))
-        output.append("|".join("-" for i in range(5)))
+        results.append({})
+        current_arg = results[len(results)-1]
+        current_arg['value'] = arg
+        current_arg['length'] = len(arg)
+        current_arg['score'] = score
+        current_arg['trials'] = iters
+        current_arg['algs'] = []
         print(f"\n---\nArg {index} : {arg}\t Score : {score} /5")
         for algorithm in algs:
             hash = getHash(algorithm, arg)
             time_for_hash = time_hash_computation(algorithm, arg, int(iters))
+            current_arg['algs'].append({
+                "name":str(algorithm),
+                "digest_bs":str(hash.block_size),
+                "digest_size":str(hash.digest_size),
+                "hash_digest":str(hash.hexdigest()),
+                "avgtime":str(time_for_hash)
+                })
             print(f"* {algorithm}: {hash.hexdigest()}")
             print(f"\t-Digest size : {hash.digest_size}")
             print(f"\t-Block size : {hash.block_size}")
             print(f"\t-Average time for {iters} : {time_for_hash}")
-            output.append(f"{algorithm}|{hash.hexdigest()}|{hash.digest_size}|{hash.block_size}|{time_for_hash}")
-            if write_in_file:
-                with open(f'reports{os.path.sep}{arg}.md', 'w') as f:
-                    for line in output:
-                        f.write(f'{line}\n')
+    if write_in_file:
+        write_each_result(results)
