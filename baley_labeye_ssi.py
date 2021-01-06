@@ -103,26 +103,20 @@ def show_aggregate_results(results):
 
     plt.clf()
     plt.style.use('ggplot')
-    x = [alg['name'] for alg in results[0]['algs']]
-    energy = [alg['digest_bs'] for alg in results[0]['algs']]
-    x_pos = [i for i, _ in enumerate(x)]
-    plt.bar(x_pos, energy, color='blue')
+    vals = sorted([(alg['name'], alg['digest_bs'])  for alg in results[0]['algs']], key=lambda value: value[1])
+    plt.bar([x[0] for x in vals], [y[1] for y in vals], color='blue')
     plt.xlabel("Algorithm")
     plt.ylabel("Block size")
     plt.title("Difference of block size per algorithms")
-    plt.xticks(x_pos, x)
     plt.savefig(f'reports{os.sep}bs.png')
     plt.clf()
 
     plt.style.use('ggplot')
-    x = [alg['name'] for alg in results[0]['algs']]
-    energy = [alg['digest_size'] for alg in results[0]['algs']]
-    x_pos = [i for i, _ in enumerate(x)]
-    plt.bar(x_pos, energy, color='green')
+    vals = sorted([(alg['name'], alg['digest_size'])  for alg in results[0]['algs']], key=lambda value: value[1])
+    plt.bar([x[0] for x in vals], [y[1] for y in vals], color='blue')
     plt.xlabel("Algorithm")
     plt.ylabel("Digest size")
     plt.title("Difference of digest size per algorithms")
-    plt.xticks(x_pos, x)
     plt.savefig(f'reports{os.sep}ds.png')
     plt.clf()
 
