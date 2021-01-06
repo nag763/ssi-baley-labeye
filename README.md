@@ -2,6 +2,8 @@
 
 The purpose of this program is to evaluate quickly the main differences between the different hash algorithms.
 
+![example](usage.gif)
+
 ## How to install
 
 1. (Optional) You should create a virtual env
