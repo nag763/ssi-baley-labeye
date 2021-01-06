@@ -1,1 +1,1 @@
-# This folder saves the differents results of the program
+# The purpose of this dir is to show the reports of the program

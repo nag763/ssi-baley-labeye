@@ -103,21 +103,21 @@ def show_aggregate_results(results):
 
     plt.clf()
     plt.style.use('ggplot')
-    vals = sorted([(alg['name'], alg['digest_bs'])  for alg in results[0]['algs']], key=lambda value: value[1])
-    plt.bar([x[0] for x in vals], [y[1] for y in vals], color='blue')
-    plt.xlabel("Algorithm")
-    plt.ylabel("Block size")
-    plt.title("Difference of block size per algorithms")
-    plt.savefig(f'reports{os.sep}bs.png')
-    plt.clf()
-
-    plt.style.use('ggplot')
     vals = sorted([(alg['name'], alg['digest_size'])  for alg in results[0]['algs']], key=lambda value: value[1])
-    plt.bar([x[0] for x in vals], [y[1] for y in vals], color='blue')
+    plt.bar([x[0] for x in vals], [y[1] for y in vals], color='green')
     plt.xlabel("Algorithm")
     plt.ylabel("Digest size")
     plt.title("Difference of digest size per algorithms")
     plt.savefig(f'reports{os.sep}ds.png')
+    plt.clf()
+
+    plt.style.use('ggplot')
+    vals = sorted([(alg['name'], alg['digest_bs'])  for alg in results[0]['algs']], key=lambda value: int(value[1]))
+    plt.bar([x[0] for x in vals], [y[1] for y in vals], color='blue')
+    plt.xlabel("Algorithm")
+    plt.ylabel("Digest bloc size")
+    plt.title("Difference of block size per algorithms")
+    plt.savefig(f'reports{os.sep}bs.png')
     plt.clf()
 
     with open(f'reports{os.sep}compare_results.md', 'w') as f:
