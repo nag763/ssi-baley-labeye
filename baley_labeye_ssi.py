@@ -144,7 +144,7 @@ def get_args():
     parser.add_argument("--algs", "-a", type=str, default=['sha256', 'md5'], nargs='+', help="algorithms to try")
     parser.add_argument("--output", "-o", nargs='?', type=bool, default=False, const=True, help="define if an output is required")
     parser.add_argument("--silent", "-s", nargs='?', type=bool, default=False, const=True, help="define if the result is printed in console")
-    parser.add_argument("--compare", "-c", nargs='?', type=bool, default=False, const=True, help="define if the result is printed in console")
+    parser.add_argument("--compare", "-c", nargs='?', type=bool, default=False, const=True, help="define if a comparison between the output has to be saved")
     args = parser.parse_args()
 
     if args.inputs:
