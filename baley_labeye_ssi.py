@@ -134,6 +134,7 @@ def show_aggregate_results(results):
         for result in results:
             f.write("|".join([str(len(result['value']))]+[str(alg['avgtime']) for alg in result['algs']]))
             f.write("\n")
+        f.write("\n")
         f.write("![Difference between the algorithms](ds.png)\n")
         f.write("![Difference between the algorithms](bs.png)\n")
         f.write("![Difference between the algorithms](diffs.png)\n")
