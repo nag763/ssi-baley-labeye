@@ -77,3 +77,7 @@ python baley_labeye_ssi.py 12 -a sha256 -i 100
 ```
 python baley_labeye_ssi.py 12 --silent
 ```
+
+## Software quality
+
+The software quality has been approved by pylint report, which gives us a 10/ 10 !
