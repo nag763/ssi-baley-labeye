@@ -35,64 +35,45 @@ python baley_labeye_ssi.py
 ## Commands
 
 ```
-python baley_labeye_ssi.py --help
-usage: baley_labeye_ssi.py [-h] [--iters i] [--random r]
-                           [--algs ALGS [ALGS ...]] [--output [OUTPUT]]
-                           [--silent [SILENT]] [--compare [COMPARE]]
-                           value [value ...]
+$ python baley_labeye_ssi.py --help
+usage: baley_labeye_ssi.py [-h] [--iters i] [--algs ALGS [ALGS ...]]
+                           [--silent [SILENT]]
+                           [number_of_random_str]
 
 positional arguments:
-  value                 arguments to be hashed
+  number_of_random_str  number of random strings to be hashed
 
 optional arguments:
   -h, --help            show this help message and exit
   --iters i, -i i       number of iterations
-  --random r, -r r      number of random elements
   --algs ALGS [ALGS ...], -a ALGS [ALGS ...]
                         algorithms to try
-  --output [OUTPUT], -o [OUTPUT]
-                        define if an output is required
   --silent [SILENT], -s [SILENT]
                         define if the result is printed in console
-  --compare [COMPARE], -c [COMPARE]
-                        define if a comparison between the output has to be
-                        saved
 ```
 
 ## Exemples
 
-### Write the output in cmd line
+### Use 12 random inputs with a size from 0 to 11, and compare them
 
 ```
-python baley_labeye_ssi example hello
+python baley_labeye_ssi.py 12
 ```
 
-### Save the output in report folder
+### Use only sha256 algorithm for 12 random inputs with a size from 0 to 11
 
 ```
-python baley_labeye_ssi example hello -o
+python baley_labeye_ssi.py 12 -a sha256
 ```
 
-### Save the comparison between the algorithms in a file
+### Use only sha256 algorithm for 12 random inputs with a size from 0 to 11, and 100 trials for each hash
 
 ```
-python baley_labeye_ssi example hello -c
+python baley_labeye_ssi.py 12 -a sha256 -i 100
 ```
 
-### Use random inputs, and compare them
+### Don't print the result of the commands in the terminal
 
 ```
-python baley_labeye_ssi random -r 128 -c
-```
-
-### Don't print the output of the commands in the terminal
-
-```
-python baley_labeye_ssi random -r 128 -c --silent
-```
-
-### Use fewer trials than the default one
-
-```
-python baley_labeye_ssi random -r 128 -c -i 120
+python baley_labeye_ssi.py 12 --silent
 ```
