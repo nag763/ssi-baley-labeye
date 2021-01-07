@@ -1,1 +1,1 @@
-# The reports will be printed in this folder
+# This dir is used to report the data from the application
