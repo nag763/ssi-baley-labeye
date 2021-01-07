@@ -1,1 +1,1 @@
-# This dir is used to report the data from the application
+# This dir's purpose is to save the programs outputs
