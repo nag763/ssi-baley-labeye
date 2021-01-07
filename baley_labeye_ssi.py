@@ -3,7 +3,6 @@ __email__ = ["romain.baley@groupe-esigelec.org", "loic.labeye@groupe-esigelec.or
 
 import hashlib as hl
 import timeit
-import csv2md
 import sys
 import re
 import argparse
@@ -95,7 +94,7 @@ def show_aggregate_results(results):
         plt.title(f'Difference of time to compute for different sizes')
         for result in results:
             vals.append((result['length'], result['algs'][index]['avgtime']))
-        plt.plot([x[0] for x in vals], [y[1] for y in vals], label=f'{alg["name"]}')
+        plt.plot([int(x[0]) for x in vals], [float(y[1]) for y in vals], label=f'{alg["name"]}')
         plt.xlabel("Length of the key")
         plt.ylabel("Time in s")
         plt.legend()
